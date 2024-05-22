@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: modular-hexagonal-cqrs-ddd
+  datasource:
+    url: jdbc:mariadb://${READ_DATABASE_HOST:localhost}:${READ_DATABASE_POST:3306}/${READ_DATABASE_NAME:modularmonolith}
+    username: ${READ_DATABASE_USERNAME:modularmonolith}
+    password: ${READ_DATABASE_PASSWORD:modularmonolith}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: create-drop
+
+
+sns:
+  topic-name: ${TOPIC_NAME:modular-monolith-topic.fifo}
+
+sqs:
+  queue-name: ${QUEUE_NAME:modular-monolith-queue.fifo}
+
+mongodb:
+  connectionString: ${MONGO_CONNECTION_STRING:mongodb://localhost:27017,localhost:27018/?replicaSet=rs0}
+  databaseName: ${MONGO_DATABASE_NAME:modular-monolith-database}
+
+api:
+  paymentbroker:
+    url: ${PAYMENT_BROKER_API_URL:http://localhost:8081}
+
+cloud:
+  aws:
+    region:
+      static: ${AWS_REGION:eu-west-1}
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY:dummy}
+      secretKey: ${AWS_SECRET_KEY:dummy}
+    endpoint: ${AWS_ENDPOINT_URL:http://localhost:4566}

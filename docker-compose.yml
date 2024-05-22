@@ -1,0 +1,81 @@
+version: "3.7"
+
+services:
+  localstack:
+    image: localstack/localstack:3.3.0
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - EDGE_PORT=4566
+      - SERVICES=sqs,sns
+      - PERSISTENCE=/var/lib/localstack/data
+    ports:
+      - 4566:4566
+    volumes:
+      - ./.localstack_volume:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  localstack-init:
+    image: amazon/aws-cli:2.15.34
+    environment:
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - AWS_ENDPOINT=http://localstack:4566
+    entrypoint: /bin/sh
+    command: ./create-localstack-resources.sh
+    working_dir: /scripts
+    depends_on:
+      - localstack
+    volumes:
+      - ./scripts/localstack:/scripts
+
+  mongo1:
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    ports:
+      - 27017:27017
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017',priority:1},{_id:1,host:'host.docker.internal:27018',priority:0.5}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      retries: 30
+    volumes:
+      - "mongo1_data:/data/db"
+      - "mongo1_config:/data/configdb"
+
+  mongo2:
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27018"]
+    ports:
+      - 27018:27018
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - "mongo2_data:/data/db"
+      - "mongo2_config:/data/configdb"
+
+  mariadb:
+    image: mariadb:10.5.8
+    restart: on-failure
+    volumes:
+      - ./scripts/mariadb:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306
+
+  jsonserver:
+    image: clue/json-server
+    ports:
+      - 8081:80
+    volumes:
+      - ./scripts/jsonserver:/data
+
+volumes:
+  mongo1_data:
+  mongo2_data:
+  mongo1_config:
+  mongo2_config:
