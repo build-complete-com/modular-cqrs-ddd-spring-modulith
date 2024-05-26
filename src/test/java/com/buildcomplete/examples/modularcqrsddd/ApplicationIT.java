@@ -35,7 +35,7 @@ class ApplicationIT extends AbstractIntegrationTest {
   void testHappyPath() throws Exception {
     String jsonProductQuantities = objectMapper.writeValueAsString(Map.of(PRODUCT_ID, 1));
 
-    String orderIdJsonString = mockMvc.perform(post("/order")
+    String orderIdString = mockMvc.perform(post("/order")
             .contentType(APPLICATION_JSON)
             .content(jsonProductQuantities))
         .andExpect(status().isOk())
@@ -44,18 +44,18 @@ class ApplicationIT extends AbstractIntegrationTest {
         .getResponse()
         .getContentAsString();
 
-    OrderId orderId = objectMapper.readValue(orderIdJsonString, OrderId.class);
+    OrderId orderId = objectMapper.readValue(orderIdString, OrderId.class);
 
-    String paymentIdJsonString = mockMvc.perform(post("/payment")
+    String paymentIdString = mockMvc.perform(post("/payment")
             .contentType(APPLICATION_JSON)
-            .content(orderIdJsonString))
+            .content(orderIdString))
         .andExpect(status().isOk())
         .andExpect(jsonPath("value", notNullValue()))
         .andReturn()
         .getResponse()
         .getContentAsString();
 
-    PaymentId paymentId = objectMapper.readValue(paymentIdJsonString, PaymentId.class);
+    PaymentId paymentId = objectMapper.readValue(paymentIdString, PaymentId.class);
 
     Awaitility.await()
         .pollDelay(POLL_DELAY)

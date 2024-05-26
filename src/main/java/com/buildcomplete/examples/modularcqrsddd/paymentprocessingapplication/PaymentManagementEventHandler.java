@@ -7,8 +7,7 @@ import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.Payment
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.PaymentStartedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +17,7 @@ class PaymentManagementEventHandler {
     private final PaymentBroker paymentBroker;
     private final ApplicationEventPublisher eventPublisher;
 
-    @Async
-    @EventListener
+    @ApplicationModuleListener
     void handleEvent(PaymentStartedEvent event) {
         Payment payment = paymentRepository.findById(event.getPaymentId()).orElseThrow(() -> new IllegalStateException("Payment should exist"));
         String brokerPaymentId = paymentBroker.getBrokerPaymentId();

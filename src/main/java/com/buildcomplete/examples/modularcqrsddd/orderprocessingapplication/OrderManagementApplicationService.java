@@ -6,6 +6,7 @@ import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderFact
 import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderRepository;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.ProductId;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ class OrderManagementApplicationService implements OrderManager {
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
+    @Transactional
     public OrderId submitOrder(Map<ProductId, Integer> productQuantitiesMap) {
         DomainAggregateChange<Order> aggregateChange = orderFactory.createOrder(productQuantitiesMap);
         orderRepository.save(aggregateChange.getChangedAggregate());

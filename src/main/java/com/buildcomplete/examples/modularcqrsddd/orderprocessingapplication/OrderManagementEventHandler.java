@@ -1,14 +1,13 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessingapplication;
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
+import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.Order;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderFactory;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderRepository;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +17,7 @@ class OrderManagementEventHandler {
     private final OrderFactory orderFactory;
     private final ApplicationEventPublisher eventPublisher;
 
-    @Async
-    @EventListener
+    @ApplicationModuleListener
     void handleEvent(PaymentCompletedEvent event) {
         Order order = orderRepository.findById(event.getOrderId()).orElseThrow(() -> new IllegalStateException("Order should exist"));
         DomainAggregateChange<Order> aggregateChange = order.completePayment();
