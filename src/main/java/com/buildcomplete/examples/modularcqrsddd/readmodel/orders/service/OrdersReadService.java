@@ -1,15 +1,16 @@
 package com.buildcomplete.examples.modularcqrsddd.readmodel.orders.service;
 
-import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderSubmittedEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderSubmittedEvent;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderEntity;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderReadRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class OrdersReadService {
     return repository.findAll();
   }
 
-  @Async
-  @EventListener
+  @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "jpaTransactionManager")
+  @ApplicationModuleListener
   void handleEvent(OrderSubmittedEvent event) {
     OrderEntity order = new OrderEntity();
     order.setId(event.getOrderId().getValue());
@@ -30,8 +31,8 @@ public class OrdersReadService {
     repository.save(order);
   }
 
-  @Async
-  @EventListener
+  @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "jpaTransactionManager")
+  @ApplicationModuleListener
   void handleEvent(OrderPayedEvent event) {
     OrderEntity order = repository.findById(event.getOrderId().getValue())
         .orElseThrow(() -> new IllegalStateException("Order should exist"));

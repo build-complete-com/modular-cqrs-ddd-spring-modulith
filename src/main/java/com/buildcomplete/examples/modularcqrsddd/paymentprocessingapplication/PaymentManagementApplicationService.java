@@ -6,15 +6,15 @@ import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.Payment
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.PaymentRepository;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional("transactionManager")
 @RequiredArgsConstructor
 class PaymentManagementApplicationService implements PaymentManager {
     private final PaymentFactory paymentFactory;
