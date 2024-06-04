@@ -1,6 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.domainsharedkernel;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 import lombok.Value;
 
@@ -13,7 +14,7 @@ public class PaymentId {
   }
 
   @JsonCreator
-  public static PaymentId of(UUID value) {
+  public static PaymentId of(@JsonProperty("value") UUID value) {
     return new PaymentId(value);
   }
 }

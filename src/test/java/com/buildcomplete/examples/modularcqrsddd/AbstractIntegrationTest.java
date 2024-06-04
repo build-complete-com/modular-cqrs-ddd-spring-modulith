@@ -32,7 +32,7 @@ class AbstractIntegrationTest {
       .waitingFor(Wait.forLogMessage(".*mongod startup complete.*", 1));
 
   @Container
-  static final LocalStackContainer LOCAL_STACK_CONTAINER = new LocalStackContainer("1.3.1")
+  static final LocalStackContainer LOCAL_STACK_CONTAINER = new LocalStackContainer("3.4.0")
       .withServices(SQS, SNS)
       .withExposedPorts(LOCAL_STACK_CONTAINER_PORT)
       .withCopyFileToContainer(
@@ -56,7 +56,7 @@ class AbstractIntegrationTest {
   @DynamicPropertySource
   static void overrideProperties(DynamicPropertyRegistry registry) {
     registry.add("mongodb.connectionString", () -> MONGO_DB_CONTAINER.getConnectionString());
-    registry.add("cloud.aws.endpoint", () -> LOCAL_STACK_CONTAINER.getEndpoint().toString());
+    registry.add("spring.cloud.aws.endpoint", () -> LOCAL_STACK_CONTAINER.getEndpoint().toString());
     registry.add("spring.datasource.url", () -> MARIA_DB_CONTAINER.getJdbcUrl());
     registry.add("spring.datasource.username", () -> MARIA_DB_CONTAINER.getUsername());
     registry.add("spring.datasource.password", () -> MARIA_DB_CONTAINER.getPassword());

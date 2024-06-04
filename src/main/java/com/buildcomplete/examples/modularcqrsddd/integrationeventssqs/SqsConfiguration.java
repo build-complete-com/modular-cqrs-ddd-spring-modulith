@@ -1,46 +1,41 @@
 package com.buildcomplete.examples.modularcqrsddd.integrationeventssqs;
 
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.sqs.AmazonSQSAsync;
-import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.awspring.cloud.messaging.config.QueueMessageHandlerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
+import io.awspring.cloud.sqs.config.SqsListenerConfigurer;
+import java.util.UUID;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.handler.annotation.support.PayloadMethodArgumentResolver;
 
-import java.util.List;
-
 @Configuration
 class SqsConfiguration {
-    @Bean
-    @Primary
-    @ConditionalOnBean(AwsClientBuilder.EndpointConfiguration.class)
-    AmazonSQSAsync amazonSQSAsync(AWSCredentialsProvider awsCredentialsProvider, AwsClientBuilder.EndpointConfiguration sqsEndpointConfiguration) {
-        return AmazonSQSAsyncClientBuilder
-                .standard()
-                .withEndpointConfiguration(sqsEndpointConfiguration)
-                .withCredentials(awsCredentialsProvider)
-                .build();
-    }
 
     @Bean
-    QueueMessageHandlerFactory queueMessageHandlerFactory(ObjectMapper objectMapper) {
-        QueueMessageHandlerFactory factory = new QueueMessageHandlerFactory();
-        PayloadMethodArgumentResolver payloadArgumentResolver = getPayloadArgumentResolver(objectMapper);
-        factory.setArgumentResolvers(List.of(payloadArgumentResolver));
-        return factory;
+    SqsListenerConfigurer sqsListenerConfigurer() {
+        return registrar -> registrar.manageMethodArgumentResolvers(resolvers -> {
+            resolvers.removeIf(PayloadMethodArgumentResolver.class::isInstance);
+            resolvers.add(getPayloadArgumentResolver());
+        });
     }
 
-    private PayloadMethodArgumentResolver getPayloadArgumentResolver(ObjectMapper objectMapper) {
+    private PayloadMethodArgumentResolver getPayloadArgumentResolver() {
         MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
-        messageConverter.setObjectMapper(objectMapper);
+        messageConverter.setObjectMapper(messagingObjectMapper());
         messageConverter.setStrictContentTypeMatch(false);
         PayloadMethodArgumentResolver payloadArgumentResolver = new PayloadMethodArgumentResolver(messageConverter);
         return payloadArgumentResolver;
+    }
+
+    private ObjectMapper messagingObjectMapper() {
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+            .allowIfSubType("com.buildcomplete.examples.modularcqrsddd")
+            .allowIfBaseType(UUID.class)
+            .build();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.EVERYTHING);
+        return mapper;
     }
 }

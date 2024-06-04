@@ -12,10 +12,17 @@ spring:
         dialect: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: create-drop
+  cloud:
+    aws:
+      endpoint: ${AWS_ENDPOINT_URL:http://localhost:4566}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY:dummy}
+        secret-key: ${AWS_SECRET_KEY:dummy}
+      region:
+        static: ${AWS_REGION:eu-west-1}
 
-
-sns:
-  topic-name: ${TOPIC_NAME:modular-monolith-topic.fifo}
+notifications:
+  target: ${TOPIC_NAME:modular-monolith-topic.fifo}
 
 sqs:
   queue-name: ${QUEUE_NAME:modular-monolith-queue.fifo}
@@ -27,12 +34,3 @@ mongodb:
 api:
   paymentbroker:
     url: ${PAYMENT_BROKER_API_URL:http://localhost:8081}
-
-cloud:
-  aws:
-    region:
-      static: ${AWS_REGION:eu-west-1}
-    credentials:
-      accessKey: ${AWS_ACCESS_KEY:dummy}
-      secretKey: ${AWS_SECRET_KEY:dummy}
-    endpoint: ${AWS_ENDPOINT_URL:http://localhost:4566}

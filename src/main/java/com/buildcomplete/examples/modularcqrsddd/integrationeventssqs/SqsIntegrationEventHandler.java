@@ -1,19 +1,18 @@
 package com.buildcomplete.examples.modularcqrsddd.integrationeventssqs;
 
-import com.buildcomplete.examples.modularcqrsddd.integrationevents.IntegrationEvent;
-import com.buildcomplete.examples.modularcqrsddd.integrationevents.IntegrationEventHandler;
-import io.awspring.cloud.messaging.listener.SqsMessageDeletionPolicy;
-import io.awspring.cloud.messaging.listener.annotation.SqsListener;
+import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
+import io.awspring.cloud.sqs.annotation.SqsListener;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 class SqsIntegrationEventHandler {
-  private final IntegrationEventHandler integrationEventHandler;
+  private final ApplicationEventPublisher applicationEventPublisher;
 
-  @SqsListener(value = "${sqs.queue-name}", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
-  public void handleEvent(IntegrationEvent integrationEvent) {
-    integrationEventHandler.handleEvent(integrationEvent);
+  @SqsListener(value = "${sqs.queue-name}")
+  public void handleEvent(DomainEvent domainEvent) {
+    applicationEventPublisher.publishEvent(domainEvent);
   }
 }

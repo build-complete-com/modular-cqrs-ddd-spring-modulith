@@ -1,6 +1,8 @@
 package com.buildcomplete.examples.modularcqrsddd.domainsharedkernel;
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 import lombok.Value;
 import org.springframework.data.annotation.PersistenceCreator;
@@ -13,8 +15,10 @@ public class OrderPayedEvent extends DomainEvent {
         this.orderId = orderId;
     }
 
+    @JsonCreator
     @PersistenceCreator
-    OrderPayedEvent(UUID id, OrderId orderId) {
+    OrderPayedEvent(@JsonProperty("id") UUID id,
+                    @JsonProperty("orderId") OrderId orderId) {
         super(id);
         this.orderId = orderId;
     }
