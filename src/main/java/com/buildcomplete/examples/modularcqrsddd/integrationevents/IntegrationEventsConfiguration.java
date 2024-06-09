@@ -1,6 +1,5 @@
 package com.buildcomplete.examples.modularcqrsddd.integrationevents;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.context.annotation.Bean;
@@ -14,17 +13,17 @@ class IntegrationEventsConfiguration {
 
   @Bean
   @Primary
-  <T extends DomainEvent> EventExternalizationConfiguration externalizationConfiguration(
-      List<DomainEventExternalizationConfiguration<T>> domainEventExternalizationConfigurations) {
+  <T> EventExternalizationConfiguration externalizationConfiguration(
+      List<ByTypeEventExternalizationConfiguration<T>> byTypeEventExternalizationConfigurations) {
     EventExternalizationConfiguration.Router router = EventExternalizationConfiguration.externalizing()
-        .selectByType(testedEventClass -> getExternalizerBy(testedEventClass, domainEventExternalizationConfigurations).isPresent());
+        .selectByType(testedEventClass -> getExternalizerBy(testedEventClass, byTypeEventExternalizationConfigurations).isPresent());
     router = router.routeAll(event -> {
       Class<T> eventClass = (Class<T>) event.getClass();
-      DomainEventExternalizationConfiguration<T>
-          eventExternalizer = getExternalizerBy(eventClass, domainEventExternalizationConfigurations).get();
+      ByTypeEventExternalizationConfiguration<T>
+          eventExternalizer = getExternalizerBy(eventClass, byTypeEventExternalizationConfigurations).get();
       return RoutingTarget.forTarget(eventExternalizer.getTargetProvider().apply((T) event)).withoutKey();
     });
-    for (DomainEventExternalizationConfiguration<T> externalizer : domainEventExternalizationConfigurations) {
+    for (ByTypeEventExternalizationConfiguration<T> externalizer : byTypeEventExternalizationConfigurations) {
       final EventExternalizationConfiguration.Router tmpRouter = router;
       router = externalizer.getRoutingKeyProvider().map(routingKeyProvider -> {
         return tmpRouter.routeKey(externalizer.getEventClass(), routingKeyProvider);
@@ -33,9 +32,9 @@ class IntegrationEventsConfiguration {
     return router.build();
   }
 
-  private <T extends DomainEvent> Optional<DomainEventExternalizationConfiguration<T>> getExternalizerBy(
+  private <T> Optional<ByTypeEventExternalizationConfiguration<T>> getExternalizerBy(
       Class<?> testedEventClass,
-      List<DomainEventExternalizationConfiguration<T>> externalizers) {
+      List<ByTypeEventExternalizationConfiguration<T>> externalizers) {
     return externalizers.stream()
         .filter(externalizer -> externalizer.getEventClass().equals(testedEventClass))
         .findAny();
