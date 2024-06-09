@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class DomainEventExternalizer<T extends DomainEvent> {
+public class DomainEventExternalizationConfiguration<T extends DomainEvent> {
   private final Class<T> eventClass;
   private final Function<T, String> targetProvider;
   private final Function<T, String> routingKeyProvider;

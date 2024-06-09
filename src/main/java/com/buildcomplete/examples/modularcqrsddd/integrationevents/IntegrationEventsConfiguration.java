@@ -15,15 +15,16 @@ class IntegrationEventsConfiguration {
   @Bean
   @Primary
   <T extends DomainEvent> EventExternalizationConfiguration externalizationConfiguration(
-      List<DomainEventExternalizer<T>> domainEventExternalizers) {
+      List<DomainEventExternalizationConfiguration<T>> domainEventExternalizationConfigurations) {
     EventExternalizationConfiguration.Router router = EventExternalizationConfiguration.externalizing()
-        .selectByType(testedEventClass -> getExternalizerBy(testedEventClass, domainEventExternalizers).isPresent());
+        .selectByType(testedEventClass -> getExternalizerBy(testedEventClass, domainEventExternalizationConfigurations).isPresent());
     router = router.routeAll(event -> {
       Class<T> eventClass = (Class<T>) event.getClass();
-      DomainEventExternalizer<T> eventExternalizer = getExternalizerBy(eventClass, domainEventExternalizers).get();
+      DomainEventExternalizationConfiguration<T>
+          eventExternalizer = getExternalizerBy(eventClass, domainEventExternalizationConfigurations).get();
       return RoutingTarget.forTarget(eventExternalizer.getTargetProvider().apply((T) event)).withoutKey();
     });
-    for (DomainEventExternalizer<T> externalizer : domainEventExternalizers) {
+    for (DomainEventExternalizationConfiguration<T> externalizer : domainEventExternalizationConfigurations) {
       final EventExternalizationConfiguration.Router tmpRouter = router;
       router = externalizer.getRoutingKeyProvider().map(routingKeyProvider -> {
         return tmpRouter.routeKey(externalizer.getEventClass(), routingKeyProvider);
@@ -32,9 +33,9 @@ class IntegrationEventsConfiguration {
     return router.build();
   }
 
-  private <T extends DomainEvent> Optional<DomainEventExternalizer<T>> getExternalizerBy(
+  private <T extends DomainEvent> Optional<DomainEventExternalizationConfiguration<T>> getExternalizerBy(
       Class<?> testedEventClass,
-      List<DomainEventExternalizer<T>> externalizers) {
+      List<DomainEventExternalizationConfiguration<T>> externalizers) {
     return externalizers.stream()
         .filter(externalizer -> externalizer.getEventClass().equals(testedEventClass))
         .findAny();
