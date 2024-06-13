@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessingmongodb;
 
-import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.Order;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderRepository;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.Order;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.OrderRepository;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

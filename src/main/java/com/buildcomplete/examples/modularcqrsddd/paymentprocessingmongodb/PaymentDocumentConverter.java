@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessingmongodb;
 
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.Payment;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.Payment;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
 import org.springframework.stereotype.Component;

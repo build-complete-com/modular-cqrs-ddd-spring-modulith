@@ -1,8 +1,8 @@
 package com.buildcomplete.examples.modularcqrsddd.readmodel.payments.service;
 
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.BrokerPaymentIdAssignedEvent;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.PaymentStartedEvent;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.BrokerPaymentIdAssignedEvent;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.PaymentStartedEvent;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.payments.repository.PaymentState;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.payments.repository.PaymentViewEntity;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.payments.repository.PaymentViewRepository;

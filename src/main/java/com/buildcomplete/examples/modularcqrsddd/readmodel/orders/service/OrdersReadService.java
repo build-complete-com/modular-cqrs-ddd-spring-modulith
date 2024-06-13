@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.readmodel.orders.service;
 
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.OrderSubmittedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.OrderSubmittedEvent;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderEntity;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderReadRepository;
 import java.math.BigDecimal;

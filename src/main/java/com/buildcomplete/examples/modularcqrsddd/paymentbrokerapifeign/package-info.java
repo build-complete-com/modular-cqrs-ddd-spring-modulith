@@ -1,8 +1,7 @@
 @ApplicationModule(
     displayName = "Payment Broker API Feign Client Adapter",
     allowedDependencies = {
-        "paymentprocessingapplication",
-        "paymentprocessingdomain"
+        "paymentprocessing::domain"
     }
 )
 package com.buildcomplete.examples.modularcqrsddd.paymentbrokerapifeign;

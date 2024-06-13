@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentbrokerapifeign;
 
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessingdomain.PaymentBroker;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.PaymentBroker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

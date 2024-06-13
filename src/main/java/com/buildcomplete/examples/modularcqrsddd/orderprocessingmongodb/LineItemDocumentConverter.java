@@ -1,8 +1,8 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessingmongodb;
 
-import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.LineItem;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.LineItemId;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessingdomain.ProductId;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.LineItem;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.LineItemId;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.ProductId;
 import org.springframework.stereotype.Component;
 
 @Component

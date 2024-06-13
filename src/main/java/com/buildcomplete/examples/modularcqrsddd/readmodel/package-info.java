@@ -2,8 +2,8 @@
     displayName = "Read Model",
     allowedDependencies = {
         "domainsharedkernel",
-        "orderprocessingdomain",
-        "paymentprocessingdomain"
+        "orderprocessing::domain",
+        "paymentprocessing::domain"
     }
 )
 package com.buildcomplete.examples.modularcqrsddd.readmodel;

@@ -1,11 +1,11 @@
 @ApplicationModule(
-    displayName = "Order Processing MongoDB Adapter",
+    displayName = "Order Processing",
     allowedDependencies = {
-        "orderprocessing::domain",
+        "integrationevents",
         "domainsharedkernel",
         "domainframework"
     }
 )
-package com.buildcomplete.examples.modularcqrsddd.orderprocessingmongodb;
+package com.buildcomplete.examples.modularcqrsddd.orderprocessing;
 
 import org.springframework.modulith.ApplicationModule;
