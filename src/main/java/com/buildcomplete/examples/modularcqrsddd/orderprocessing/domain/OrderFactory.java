@@ -1,14 +1,13 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain;
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
-import org.springframework.stereotype.Component;
-
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import org.springframework.stereotype.Component;
 
 @Component
 public class OrderFactory {
-    public DomainAggregateChange<Order> createOrder(Map<ProductId, Integer> productQuantitiesMap) {
+    public DomainAggregateChange<Order> createOrder(LinkedHashMap<ProductId, Integer> productQuantitiesMap) {
         Order order = Order.constitutingBuilder()
                 .lineItems(toLineItems(productQuantitiesMap))
                 .build();
@@ -19,7 +18,7 @@ public class OrderFactory {
                 .build();
     }
 
-    private List<LineItem> toLineItems(Map<ProductId, Integer> productQuantitiesMap) {
+    private List<LineItem> toLineItems(LinkedHashMap<ProductId, Integer> productQuantitiesMap) {
         return productQuantitiesMap.entrySet().stream()
                 .map(entry -> LineItem.constitutingBuilder()
                         .productId(entry.getKey())
