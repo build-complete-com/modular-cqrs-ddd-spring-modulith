@@ -4,8 +4,9 @@ import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.ProductI
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
 
 import java.util.Map;
+import java.util.SortedMap;
 
 public interface OrderManager {
 
-    OrderId submitOrder(Map<ProductId, Integer> productQuantitiesMap);
+    OrderId submitOrder(SortedMap<ProductId, Integer> productQuantitiesMap);
 }
