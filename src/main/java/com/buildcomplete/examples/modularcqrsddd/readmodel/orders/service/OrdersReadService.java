@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.readmodel.orders.service;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderPayedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderEntity;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderReadRepository;
@@ -33,8 +33,8 @@ public class OrdersReadService {
 
   @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "jpaTransactionManager")
   @ApplicationModuleListener
-  void handleEvent(OrderPayedEvent event) {
-    OrderEntity order = repository.findById(event.getOrderId().getValue())
+  void handleEvent(OrderPayedPortEvent event) {
+    OrderEntity order = repository.findById(event.getOrderId())
         .orElseThrow(() -> new IllegalStateException("Order should exist"));
     order.setPaymentComplete(true);
     repository.save(order);

@@ -1,9 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderSubmittedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderPayedEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderPayedPortEvent;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
 import org.springframework.stereotype.Service;
 
 @Service

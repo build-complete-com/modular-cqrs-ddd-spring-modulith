@@ -6,17 +6,14 @@ import static org.mockito.Mockito.when;
 
 import com.buildcomplete.examples.modularcqrsddd.AbstractIntegrationTest;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderPayedEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderSubmittedEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderSubmissionDto;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

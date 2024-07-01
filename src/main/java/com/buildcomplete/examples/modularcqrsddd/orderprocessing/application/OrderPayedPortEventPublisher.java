@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderPayedEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderPayedPortEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
