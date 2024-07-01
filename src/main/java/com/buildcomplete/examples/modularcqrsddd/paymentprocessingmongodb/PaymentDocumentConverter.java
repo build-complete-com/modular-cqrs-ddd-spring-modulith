@@ -1,30 +1,28 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessingmongodb;
 
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.Payment;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDto;
 import org.springframework.stereotype.Component;
 
 @Component
 class PaymentDocumentConverter {
 
-    Payment convert(PaymentDocument document) {
-        return Payment.reconstitutingBuilder()
-                .id(PaymentId.of(document.getId()))
-                .version(document.getVersion())
-                .orderId(OrderId.of(document.getOrderId()))
-                .brokerPaymentId(document.getBrokerPaymentId())
-                .complete(document.isComplete())
-                .build();
+    PaymentDto convert(PaymentDocument document) {
+        return new PaymentDto(
+            document.getId(),
+            document.getOrderId(),
+            document.getBrokerPaymentId(),
+            document.isComplete(),
+            document.getVersion()
+        );
     }
 
-    PaymentDocument convert(Payment aggregateRoot) {
+    PaymentDocument convert(PaymentDto paymentDto) {
         PaymentDocument document = new PaymentDocument();
-        document.setId(aggregateRoot.getId().getValue());
-        document.setVersion(aggregateRoot.getVersion());
-        document.setOrderId(aggregateRoot.getOrderId().getValue());
-        document.setBrokerPaymentId(aggregateRoot.getBrokerPaymentId());
-        document.setComplete(aggregateRoot.isComplete());
+        document.setId(paymentDto.getId());
+        document.setVersion(paymentDto.getVersion());
+        document.setOrderId(paymentDto.getOrderId());
+        document.setBrokerPaymentId(paymentDto.getBrokerPaymentId());
+        document.setComplete(paymentDto.isComplete());
         return document;
     }
 }

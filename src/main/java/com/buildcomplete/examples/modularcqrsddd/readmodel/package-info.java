@@ -3,7 +3,7 @@
     allowedDependencies = {
         "domainsharedkernel",
         "orderprocessing::events",
-        "paymentprocessing::domain"
+        "paymentprocessing::events"
     }
 )
 package com.buildcomplete.examples.modularcqrsddd.readmodel;

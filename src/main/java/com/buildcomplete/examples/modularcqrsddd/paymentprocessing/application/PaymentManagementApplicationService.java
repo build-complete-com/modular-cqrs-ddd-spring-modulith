@@ -1,11 +1,13 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application;
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.Payment;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.PaymentFactory;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.PaymentRepository;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.Payment;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentFactory;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDto;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepository;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.service.PaymentManager;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -17,23 +19,34 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional("transactionManager")
 @RequiredArgsConstructor
 class PaymentManagementApplicationService implements PaymentManager {
+    private final PaymentDtoConverter paymentDtoConverter;
     private final PaymentFactory paymentFactory;
-    private final PaymentRepository paymentRepository;
+    private final PaymentDtoRepository paymentDtoRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public PaymentId startPayment(OrderId orderId) {
-        DomainAggregateChange<Payment> aggregateChange = paymentFactory.startPayment(orderId);
-        paymentRepository.save(aggregateChange.getChangedAggregate());
+    public UUID startPayment(UUID orderId) {
+        DomainAggregateChange<Payment> aggregateChange = paymentFactory.startPayment(OrderId.of(orderId));
+        savePayment(aggregateChange.getChangedAggregate());
         aggregateChange.getDomainEvents().forEach(eventPublisher::publishEvent);
-        return aggregateChange.getChangedAggregate().getId();
+        return aggregateChange.getChangedAggregate().getId().getValue();
     }
 
     @Override
     public void completePayment(String brokerPaymentId) {
-        Payment payment = paymentRepository.findByBrokerPaymentId(brokerPaymentId).orElseThrow(() -> new IllegalStateException("Payment should exist"));
+        Payment payment = getPaymentByBrokerPaymentId(brokerPaymentId);
         DomainAggregateChange<Payment> aggregateChange = payment.complete();
-        paymentRepository.save(aggregateChange.getChangedAggregate());
+        savePayment(aggregateChange.getChangedAggregate());
         aggregateChange.getDomainEvents().forEach(eventPublisher::publishEvent);
+    }
+
+    private Payment getPaymentByBrokerPaymentId(String brokerPaymentId) {
+        PaymentDto paymentDto = paymentDtoRepository.findByBrokerPaymentId(brokerPaymentId).orElseThrow(() -> new IllegalStateException("Payment should exist"));
+        return paymentDtoConverter.convert(paymentDto);
+    }
+
+    private void savePayment(Payment payment) {
+        PaymentDto paymentDto = paymentDtoConverter.convert(payment);
+        paymentDtoRepository.save(paymentDto);
     }
 }

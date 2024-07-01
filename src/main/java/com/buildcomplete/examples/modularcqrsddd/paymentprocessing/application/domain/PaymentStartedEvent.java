@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain;
+package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain;
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;

@@ -1,8 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessingrestapi;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.PaymentManager;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.service.PaymentManager;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +15,7 @@ class PaymentController {
   private final PaymentManager paymentManager;
 
   @PostMapping
-  PaymentId startPayment(@RequestBody OrderId orderId) {
+  UUID startPayment(@RequestBody UUID orderId) {
     return paymentManager.startPayment(orderId);
   }
 

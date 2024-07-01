@@ -1,8 +1,8 @@
 package com.buildcomplete.examples.modularcqrsddd.readmodel.payments.service;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.BrokerPaymentIdAssignedEvent;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.domain.PaymentStartedEvent;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.BrokerPaymentIdAssignedPortEvent;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentStartedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.payments.repository.PaymentState;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.payments.repository.PaymentViewEntity;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.payments.repository.PaymentViewRepository;
@@ -24,25 +24,25 @@ public class PaymentReadService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "jpaTransactionManager")
     @ApplicationModuleListener
-    void handleEvent(PaymentStartedEvent event) {
+    void handleEvent(PaymentStartedPortEvent event) {
         PaymentViewEntity entity = new PaymentViewEntity();
-        entity.setPaymentId(event.getPaymentId().getValue());
+        entity.setPaymentId(event.getPaymentId());
         entity.setPaymentState(PaymentState.STARTED);
         repository.save(entity);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "jpaTransactionManager")
     @ApplicationModuleListener
-    void handleEvent(BrokerPaymentIdAssignedEvent event) {
-        PaymentViewEntity entity = repository.findById(event.getPaymentId().getValue()).orElseThrow(() -> new IllegalStateException("Should exist"));
+    void handleEvent(BrokerPaymentIdAssignedPortEvent event) {
+        PaymentViewEntity entity = repository.findById(event.getPaymentId()).orElseThrow(() -> new IllegalStateException("Should exist"));
         entity.setPaymentState(PaymentState.BROKER_PAYMENT_ID_ASSIGNED);
         repository.save(entity);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "jpaTransactionManager")
     @ApplicationModuleListener
-    void handleEvent(PaymentCompletedEvent event) {
-        PaymentViewEntity entity = repository.findById(event.getPaymentId().getValue()).orElseThrow(() -> new IllegalStateException("Should exist"));
+    void handleEvent(PaymentCompletedPortEvent event) {
+        PaymentViewEntity entity = repository.findById(event.getPaymentId()).orElseThrow(() -> new IllegalStateException("Should exist"));
         entity.setPaymentState(PaymentState.COMPLETED);
         repository.save(entity);
     }
