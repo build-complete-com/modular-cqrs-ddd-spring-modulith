@@ -2,15 +2,12 @@ package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application;
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderSubmittedEvent;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentCompletedEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderFactory;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
 

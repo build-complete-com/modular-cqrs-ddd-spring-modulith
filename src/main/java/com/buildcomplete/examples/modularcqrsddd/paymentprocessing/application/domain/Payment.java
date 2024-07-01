@@ -3,7 +3,6 @@ package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateRoot;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
 import lombok.Builder;
 import lombok.Value;

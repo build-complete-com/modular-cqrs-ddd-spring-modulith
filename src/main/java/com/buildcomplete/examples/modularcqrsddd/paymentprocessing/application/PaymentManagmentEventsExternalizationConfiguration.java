@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentCompletedEvent;
 import com.buildcomplete.examples.modularcqrsddd.integrationevents.ByTypeEventExternalizationConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
