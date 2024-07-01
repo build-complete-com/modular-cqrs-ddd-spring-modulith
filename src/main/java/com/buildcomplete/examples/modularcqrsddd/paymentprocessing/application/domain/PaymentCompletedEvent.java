@@ -2,7 +2,6 @@ package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.domainsharedkernel;
+package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

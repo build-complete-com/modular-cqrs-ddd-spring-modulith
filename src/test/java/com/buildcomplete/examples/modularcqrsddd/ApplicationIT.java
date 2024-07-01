@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentId;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;

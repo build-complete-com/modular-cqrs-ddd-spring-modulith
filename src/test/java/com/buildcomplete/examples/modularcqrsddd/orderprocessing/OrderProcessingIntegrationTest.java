@@ -8,7 +8,7 @@ import com.buildcomplete.examples.modularcqrsddd.AbstractIntegrationTest;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderPayedEvent;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentCompletedEvent;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentId;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
