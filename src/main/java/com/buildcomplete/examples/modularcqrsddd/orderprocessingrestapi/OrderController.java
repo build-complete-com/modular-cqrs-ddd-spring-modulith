@@ -1,9 +1,9 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessingrestapi;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.OrderManager;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.ProductId;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderSubmissionDto;
 import java.util.LinkedHashMap;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ class OrderController {
     private final OrderManager orderManager;
 
     @PostMapping
-    OrderId submitOrder(LinkedHashMap<ProductId, Integer> productQuantities) {
-        return orderManager.submitOrder(productQuantities);
+    UUID submitOrder(OrderSubmissionDto orderSubmission) {
+        return orderManager.submitOrder(orderSubmission);
     }
 }

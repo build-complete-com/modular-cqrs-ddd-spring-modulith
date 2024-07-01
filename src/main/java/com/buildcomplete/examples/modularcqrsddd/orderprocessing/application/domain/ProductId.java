@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain;
+package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain;
 
 import lombok.Value;
 

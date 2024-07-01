@@ -9,13 +9,17 @@ import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentCompletedEvent;
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.PaymentId;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.OrderManager;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.Order;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.OrderRepository;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.OrderSubmittedEvent;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.ProductId;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderSubmittedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderSubmissionDto;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -44,25 +48,26 @@ class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
   @Autowired
   private OrderManager orderManager;
   @MockBean
-  private OrderRepository orderRepository;
+  private OrderDtoRepository orderRepository;
   @Captor
-  private ArgumentCaptor<Order> orderArgumentCaptor;
+  private ArgumentCaptor<OrderDto> orderArgumentCaptor;
 
   @Test
   @DisplayName("""
-      GIVEN product quantities 
-       WHEN submitting order 
-       THEN publishes order submitted event 
+      GIVEN product quantities
+       WHEN submitting order
+       THEN publishes order submitted event
        AND persists order""")
   void handlesOrderSubmission(Scenario scenario) {
-    ProductId firstProductId = ProductId.randomProductId();
-    ProductId secondProductId = ProductId.randomProductId();
-    var productQuantities = new LinkedHashMap<ProductId, Integer>();
-    productQuantities.put(firstProductId, 2);
-    productQuantities.put(secondProductId, 3);
+    UUID firstProductId = UUID.randomUUID();
+    UUID secondProductId = UUID.randomUUID();
+    var orderSubmission = new OrderSubmissionDto(List.of(
+        new OrderSubmissionDto.Entry(firstProductId, 2),
+        new OrderSubmissionDto.Entry(secondProductId, 3)
+    ));
 
-    scenario.stimulate(() -> orderManager.submitOrder(productQuantities))
-        .andWaitForEventOfType(OrderSubmittedEvent.class)
+    scenario.stimulate(() -> orderManager.submitOrder(orderSubmission))
+        .andWaitForEventOfType(OrderSubmittedPortEvent.class)
         .toArriveAndVerify((publishedEvent, returnedOrderId) -> {
           assertThat(publishedEvent.getOrderId()).isEqualTo(returnedOrderId);
           assertThat(publishedEvent.getLineItems()).isNotNull().hasSize(2);
@@ -72,7 +77,7 @@ class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
           assertThat(publishedEvent.getLineItems().get(1).getQuantity()).isEqualTo(3);
 
           verify(orderRepository).save(orderArgumentCaptor.capture());
-          Order capturedOrder = orderArgumentCaptor.getValue();
+          OrderDto capturedOrder = orderArgumentCaptor.getValue();
           assertThat(capturedOrder.getId()).isEqualTo(returnedOrderId);
           assertThat(capturedOrder.getLineItems()).isNotNull().hasSize(2);
           assertThat(capturedOrder.getLineItems().get(0).getProductId()).isEqualTo(firstProductId);
@@ -84,24 +89,24 @@ class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
 
   @Test
   @DisplayName("""
-      GIVEN payment complete event 
-       WHEN handling then event 
+      GIVEN payment complete event
+       WHEN handling then event
        THEN publishes order payed event
        AND persists order""")
   void handlesCompletedPayment(Scenario scenario) {
-    OrderId orderId = OrderId.randomOrderId();
-    Order order = Order.reconstitutingBuilder().id(orderId).build();
+    UUID orderId = UUID.randomUUID();
+    OrderDto order = OrderDto.builder().id(orderId).lineItems(List.of()).build();
     when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-    PaymentId paymentId = PaymentId.randomPaymentId();
-    PaymentCompletedEvent paymentCompletedEvent = new PaymentCompletedEvent(paymentId, orderId);
+    UUID paymentId = UUID.randomUUID();
+    PaymentCompletedEvent paymentCompletedEvent = new PaymentCompletedEvent(PaymentId.of(paymentId), OrderId.of(orderId));
 
     scenario.publish(() -> paymentCompletedEvent)
         .andWaitForEventOfType(OrderPayedEvent.class)
         .toArriveAndVerify(publishedEvent -> {
-          assertThat(publishedEvent.getOrderId()).isEqualTo(orderId);
+          assertThat(publishedEvent.getOrderId().getValue()).isEqualTo(orderId);
 
           verify(orderRepository).save(orderArgumentCaptor.capture());
-          Order capturedOrder = orderArgumentCaptor.getValue();
+          OrderDto capturedOrder = orderArgumentCaptor.getValue();
           assertThat(capturedOrder.getId()).isEqualTo(orderId);
           assertThat(capturedOrder.isPaymentComplete()).isTrue();
         });

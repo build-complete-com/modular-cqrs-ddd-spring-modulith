@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.readmodel.orders.service;
 
 import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderPayedEvent;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.OrderSubmittedEvent;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderEntity;
 import com.buildcomplete.examples.modularcqrsddd.readmodel.orders.repository.OrderReadRepository;
 import java.math.BigDecimal;
@@ -23,9 +23,9 @@ public class OrdersReadService {
 
   @Transactional(propagation = Propagation.REQUIRES_NEW, transactionManager = "jpaTransactionManager")
   @ApplicationModuleListener
-  void handleEvent(OrderSubmittedEvent event) {
+  void handleEvent(OrderSubmittedPortEvent event) {
     OrderEntity order = new OrderEntity();
-    order.setId(event.getOrderId().getValue());
+    order.setId(event.getOrderId());
     order.setTotalCost(getTotalCost(event));
     order.setPaymentComplete(false);
     repository.save(order);
@@ -40,7 +40,7 @@ public class OrdersReadService {
     repository.save(order);
   }
 
-  private BigDecimal getTotalCost(OrderSubmittedEvent event) {
+  private BigDecimal getTotalCost(OrderSubmittedPortEvent event) {
     return event.getLineItems().stream()
         .map(lineItem -> lineItem.getPricePerUnit().multiply(BigDecimal.valueOf(lineItem.getQuantity())))
         .reduce(BigDecimal.ZERO, (accumulator, lineItemCost) -> accumulator.add(lineItemCost));

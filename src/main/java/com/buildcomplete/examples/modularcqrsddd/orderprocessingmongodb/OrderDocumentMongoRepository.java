@@ -4,5 +4,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.UUID;
 
-interface OrderMongoRepository extends MongoRepository<OrderDocument, UUID> {
+interface OrderDocumentMongoRepository extends MongoRepository<OrderDocument, UUID> {
 }

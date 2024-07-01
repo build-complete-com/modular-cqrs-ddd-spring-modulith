@@ -1,26 +1,24 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessingmongodb;
 
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.LineItem;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.LineItemId;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.domain.ProductId;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.LineItemDto;
 import org.springframework.stereotype.Component;
 
 @Component
 class LineItemDocumentConverter {
 
-    LineItemDocument convert(LineItem lineItem) {
+    LineItemDocument convert(LineItemDto lineItem) {
         LineItemDocument document = new LineItemDocument();
-        document.setId(lineItem.getId().getValue());
-        document.setProductId(lineItem.getProductId().getValue());
+        document.setId(lineItem.getId());
+        document.setProductId(lineItem.getProductId());
         document.setQuantity(lineItem.getQuantity());
         document.setPricePerUnit(lineItem.getPricePerUnit());
         return document;
     }
 
-    LineItem convert(LineItemDocument entity) {
-        return LineItem.reconstitutingBuilder()
-                .id(LineItemId.of(entity.getId()))
-                .productId(ProductId.of(entity.getProductId()))
+    LineItemDto convert(LineItemDocument entity) {
+        return LineItemDto.builder()
+                .id(entity.getId())
+                .productId(entity.getProductId())
                 .quantity(entity.getQuantity())
                 .pricePerUnit(entity.getPricePerUnit())
                 .build();

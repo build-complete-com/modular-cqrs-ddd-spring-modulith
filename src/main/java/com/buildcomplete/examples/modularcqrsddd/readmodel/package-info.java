@@ -2,7 +2,7 @@
     displayName = "Read Model",
     allowedDependencies = {
         "domainsharedkernel",
-        "orderprocessing::domain",
+        "orderprocessing::events",
         "paymentprocessing::domain"
     }
 )
