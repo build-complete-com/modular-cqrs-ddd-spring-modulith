@@ -6,6 +6,8 @@ import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.d
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.modulith.events.ApplicationModuleListener;
@@ -19,7 +21,7 @@ class OrderManagementEventHandler {
     private final ApplicationEventPublisher eventPublisher;
 
     @ApplicationModuleListener
-    void handleEvent(PaymentCompletedEvent event) {
+    void handleEvent(PaymentCompletedPortEvent event) {
         Order order = getOrderById(event.getOrderId());
         DomainAggregateChange<Order> aggregateChange = order.completePayment();
         saveOrder(aggregateChange.getChangedAggregate());
@@ -31,8 +33,8 @@ class OrderManagementEventHandler {
         orderRepository.save(changedOrderDto);
     }
 
-    private Order getOrderById(OrderId orderId) {
-        OrderDto orderDto = orderRepository.findById(orderId.getValue())
+    private Order getOrderById(UUID orderId) {
+        OrderDto orderDto = orderRepository.findById(orderId)
             .orElseThrow(() -> new IllegalStateException("Order should exist"));
         Order order = orderDtoConverter.convert(orderDto);
         return order;
