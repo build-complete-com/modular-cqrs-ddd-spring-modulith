@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentCompletedEvent;
 import com.buildcomplete.examples.modularcqrsddd.integrationevents.ByTypeEventExternalizationConfiguration;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +10,11 @@ import org.springframework.context.annotation.Configuration;
 class PaymentManagmentEventsExternalizationConfiguration {
 
   @Bean
-  ByTypeEventExternalizationConfiguration<PaymentCompletedEvent> paymentCompletedEventExternalizationConfiguration(
+  ByTypeEventExternalizationConfiguration<PaymentCompletedPortEvent> paymentCompletedEventExternalizationConfiguration(
       @Value("${notifications.target}") String notificationsTarget) {
     return new ByTypeEventExternalizationConfiguration<>(
-        PaymentCompletedEvent.class,
+        PaymentCompletedPortEvent.class,
         event -> notificationsTarget,
-        event -> event.getPaymentId().getValue().toString());
+        event -> event.getPaymentId().toString());
   }
 }
