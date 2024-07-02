@@ -1,6 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +13,8 @@ import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repositor
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderSubmissionDto;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
+import io.awspring.cloud.sns.core.SnsNotification;
+import io.awspring.cloud.sns.core.SnsTemplate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +33,8 @@ import org.springframework.modulith.test.Scenario;
 import org.springframework.test.context.ActiveProfiles;
 
 @ApplicationModuleTest(extraIncludes = {
-    "mongoconfig"
+    "mongoconfig",
+    "integrationevents"
 })
 @ActiveProfiles("tests")
 @EnableAutoConfiguration(exclude = {
@@ -44,8 +48,13 @@ class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
   private OrderManager orderManager;
   @MockBean
   private OrderDtoRepository orderRepository;
+  @MockBean
+  private SnsTemplate snsTemplate;
+
   @Captor
   private ArgumentCaptor<OrderDto> orderArgumentCaptor;
+  @Captor
+  private ArgumentCaptor<SnsNotification> snsNotificationCaptor;
 
   @Test
   @DisplayName("""
@@ -99,6 +108,10 @@ class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
         .andWaitForEventOfType(OrderPayedPortEvent.class)
         .toArriveAndVerify(publishedEvent -> {
           assertThat(publishedEvent.getOrderId()).isEqualTo(orderId);
+
+          verify(snsTemplate).sendNotification(eq("modular-monolith-topic.fifo"), snsNotificationCaptor.capture());
+          SnsNotification snsNotification = snsNotificationCaptor.getValue();
+          assertThat(snsNotification.getPayload()).isEqualTo(publishedEvent);
 
           verify(orderRepository).save(orderArgumentCaptor.capture());
           OrderDto capturedOrder = orderArgumentCaptor.getValue();
