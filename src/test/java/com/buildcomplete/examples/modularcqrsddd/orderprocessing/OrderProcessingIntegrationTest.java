@@ -5,15 +5,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.buildcomplete.examples.modularcqrsddd.AbstractIntegrationTest;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderPayedEvent;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentCompletedEvent;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentId;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderPayedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderSubmissionDto;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -95,12 +93,12 @@ class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
     OrderDto order = OrderDto.builder().id(orderId).lineItems(List.of()).build();
     when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
     UUID paymentId = UUID.randomUUID();
-    PaymentCompletedEvent paymentCompletedEvent = new PaymentCompletedEvent(PaymentId.of(paymentId), OrderId.of(orderId));
+    PaymentCompletedPortEvent paymentCompletedEvent = new PaymentCompletedPortEvent(paymentId, orderId);
 
     scenario.publish(() -> paymentCompletedEvent)
-        .andWaitForEventOfType(OrderPayedEvent.class)
+        .andWaitForEventOfType(OrderPayedPortEvent.class)
         .toArriveAndVerify(publishedEvent -> {
-          assertThat(publishedEvent.getOrderId().getValue()).isEqualTo(orderId);
+          assertThat(publishedEvent.getOrderId()).isEqualTo(orderId);
 
           verify(orderRepository).save(orderArgumentCaptor.capture());
           OrderDto capturedOrder = orderArgumentCaptor.getValue();

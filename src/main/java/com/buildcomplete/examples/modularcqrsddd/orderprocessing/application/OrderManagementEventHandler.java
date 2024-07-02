@@ -1,10 +1,8 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application;
 
 import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentCompletedEvent;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
 import java.util.UUID;
