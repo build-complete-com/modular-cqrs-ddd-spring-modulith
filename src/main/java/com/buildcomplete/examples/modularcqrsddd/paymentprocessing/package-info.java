@@ -3,8 +3,7 @@
     allowedDependencies = {
         "paymentprocessing::repository", // this is workaround for bug https://github.com/spring-projects/spring-modulith/issues/660
         "hexagoncore::domainsharedkernel",
-        "hexagoncore::domainframework",
-        "hexagoncore::integrationevents"
+        "hexagoncore::domainframework"
     }
 )
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing;
