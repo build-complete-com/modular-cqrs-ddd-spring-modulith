@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentId;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
 import java.util.Map;

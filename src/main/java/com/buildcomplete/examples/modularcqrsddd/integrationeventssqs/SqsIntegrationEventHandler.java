@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.integrationeventssqs;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainEvent;
 import io.awspring.cloud.sqs.annotation.SqsListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

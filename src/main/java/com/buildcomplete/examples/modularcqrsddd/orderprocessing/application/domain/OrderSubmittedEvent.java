@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainEvent;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
 import java.util.List;
 import java.util.UUID;
 import lombok.Value;

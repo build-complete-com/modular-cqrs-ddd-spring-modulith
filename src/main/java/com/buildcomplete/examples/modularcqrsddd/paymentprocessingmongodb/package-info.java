@@ -1,9 +1,7 @@
 @ApplicationModule(
     displayName = "Payment Processing MongoDB Adapter",
     allowedDependencies = {
-        "paymentprocessing::repository",
-        "domainsharedkernel",
-        "domainframework"
+        "paymentprocessing::repository"
     }
 )
 @SecondaryAdapter

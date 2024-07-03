@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.integrationevents.ByTypeEventExternalizationConfiguration;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.integrationevents.ByTypeEventExternalizationConfiguration;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

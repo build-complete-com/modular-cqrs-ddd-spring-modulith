@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.domainsharedkernel;
+package com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

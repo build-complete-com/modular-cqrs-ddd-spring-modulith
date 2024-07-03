@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.mongoconfig;
+package com.buildcomplete.examples.modularcqrsddd.hexagoncore.adapters.mongoconfig;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;

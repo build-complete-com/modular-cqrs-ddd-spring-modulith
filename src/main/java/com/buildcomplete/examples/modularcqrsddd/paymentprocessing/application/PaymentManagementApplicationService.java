@@ -1,11 +1,11 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainAggregateChange;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.Payment;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentFactory;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDto;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepository;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.service.PaymentManager;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

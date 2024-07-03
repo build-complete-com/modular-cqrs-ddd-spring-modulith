@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainAggregateChange;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;

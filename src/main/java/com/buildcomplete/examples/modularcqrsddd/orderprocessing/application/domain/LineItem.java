@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEntity;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainEntity;
 import lombok.Builder;
 import lombok.Value;
 

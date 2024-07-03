@@ -1,6 +1,5 @@
 @ApplicationModule(
-    displayName = "Integration Events SQS Adapter",
-    allowedDependencies = {"integrationevents", "domainframework"}
+    displayName = "Integration Events SQS Adapter"
 )
 package com.buildcomplete.examples.modularcqrsddd.integrationeventssqs;
 

@@ -32,10 +32,7 @@ import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.modulith.test.Scenario;
 import org.springframework.test.context.ActiveProfiles;
 
-@ApplicationModuleTest(extraIncludes = {
-    "mongoconfig",
-    "integrationevents"
-})
+@ApplicationModuleTest(extraIncludes = {"hexagoncore"})
 @ActiveProfiles("tests")
 @EnableAutoConfiguration(exclude = {
     DataSourceAutoConfiguration.class,

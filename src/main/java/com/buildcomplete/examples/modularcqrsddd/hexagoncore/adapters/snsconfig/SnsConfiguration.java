@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.integrationeventssns;
+package com.buildcomplete.examples.modularcqrsddd.hexagoncore.adapters.snsconfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;

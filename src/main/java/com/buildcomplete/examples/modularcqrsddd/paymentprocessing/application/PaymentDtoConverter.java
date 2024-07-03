@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentId;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.Payment;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDto;

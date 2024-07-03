@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainAggregateChange;
 import java.util.List;
 import org.springframework.stereotype.Component;
 

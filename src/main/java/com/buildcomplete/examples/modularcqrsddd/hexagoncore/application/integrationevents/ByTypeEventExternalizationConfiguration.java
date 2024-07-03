@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.integrationevents;
+package com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.integrationevents;
 
 import java.util.Optional;
 import java.util.function.Function;

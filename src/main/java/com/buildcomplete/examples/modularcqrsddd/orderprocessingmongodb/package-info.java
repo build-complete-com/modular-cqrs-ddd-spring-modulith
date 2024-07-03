@@ -1,9 +1,7 @@
 @ApplicationModule(
     displayName = "Order Processing MongoDB Adapter",
     allowedDependencies = {
-        "orderprocessing::repository",
-        "domainsharedkernel",
-        "domainframework"
+        "orderprocessing::repository"
     }
 )
 @SecondaryAdapter

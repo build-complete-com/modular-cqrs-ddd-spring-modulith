@@ -1,8 +1,7 @@
 @ApplicationModule(
     displayName = "Order Processing REST API Adapter",
     allowedDependencies = {
-        "orderprocessing::service",
-        "domainsharedkernel",
+        "orderprocessing::service"
     }
 )
 @PrimaryAdapter

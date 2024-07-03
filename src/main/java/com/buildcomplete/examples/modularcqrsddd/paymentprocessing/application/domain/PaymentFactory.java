@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainAggregateChange;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainAggregateChange;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

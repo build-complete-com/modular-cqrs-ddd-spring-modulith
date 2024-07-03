@@ -1,8 +1,7 @@
 @ApplicationModule(
     displayName = "Payment Processing REST API Adapter",
     allowedDependencies = {
-        "paymentprocessing::service",
-        "domainsharedkernel"
+        "paymentprocessing::service"
     }
 )
 @PrimaryAdapter

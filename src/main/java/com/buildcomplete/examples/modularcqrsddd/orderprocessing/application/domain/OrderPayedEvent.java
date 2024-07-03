@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain;
 
-import com.buildcomplete.examples.modularcqrsddd.domainframework.DomainEvent;
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainEvent;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application;
 
-import com.buildcomplete.examples.modularcqrsddd.domainsharedkernel.OrderId;
+import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.LineItem;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.LineItemId;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;

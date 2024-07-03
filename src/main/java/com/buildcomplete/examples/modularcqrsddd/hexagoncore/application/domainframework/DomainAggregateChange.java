@@ -1,4 +1,4 @@
-package com.buildcomplete.examples.modularcqrsddd.domainframework;
+package com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework;
 
 import lombok.Builder;
 import lombok.Value;
