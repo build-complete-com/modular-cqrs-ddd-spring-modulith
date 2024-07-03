@@ -1,7 +1,6 @@
 @ApplicationModule(
     displayName = "Read Model",
     allowedDependencies = {
-        "domainsharedkernel",
         "orderprocessing::events",
         "paymentprocessing::events"
     }
