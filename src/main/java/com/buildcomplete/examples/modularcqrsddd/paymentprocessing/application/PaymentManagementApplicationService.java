@@ -4,9 +4,9 @@ import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainf
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.Payment;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentFactory;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDto;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepositoryPort;
 import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainsharedkernel.OrderId;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.service.PaymentManager;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.service.PaymentManagerPort;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional("transactionManager")
 @RequiredArgsConstructor
-class PaymentManagementApplicationService implements PaymentManager {
+class PaymentManagementApplicationService implements PaymentManagerPort {
     private final PaymentDtoConverter paymentDtoConverter;
     private final PaymentFactory paymentFactory;
-    private final PaymentDtoRepository paymentDtoRepository;
+    private final PaymentDtoRepositoryPort paymentDtoRepositoryPort;
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
@@ -41,12 +41,12 @@ class PaymentManagementApplicationService implements PaymentManager {
     }
 
     private Payment getPaymentByBrokerPaymentId(String brokerPaymentId) {
-        PaymentDto paymentDto = paymentDtoRepository.findByBrokerPaymentId(brokerPaymentId).orElseThrow(() -> new IllegalStateException("Payment should exist"));
+        PaymentDto paymentDto = paymentDtoRepositoryPort.findByBrokerPaymentId(brokerPaymentId).orElseThrow(() -> new IllegalStateException("Payment should exist"));
         return paymentDtoConverter.convert(paymentDto);
     }
 
     private void savePayment(Payment payment) {
         PaymentDto paymentDto = paymentDtoConverter.convert(payment);
-        paymentDtoRepository.save(paymentDto);
+        paymentDtoRepositoryPort.save(paymentDto);
     }
 }

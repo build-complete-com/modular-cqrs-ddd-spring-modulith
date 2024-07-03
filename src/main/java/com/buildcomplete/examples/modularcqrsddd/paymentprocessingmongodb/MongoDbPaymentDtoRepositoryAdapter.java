@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.paymentprocessingmongodb;
 
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDto;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepositoryPort;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-class MongoDbPaymentDtoRepository implements PaymentDtoRepository {
+class MongoDbPaymentDtoRepositoryAdapter implements PaymentDtoRepositoryPort {
     private final PaymentMongoRepository paymentMongoRepository;
     private final PaymentDocumentConverter converter;
     @Override

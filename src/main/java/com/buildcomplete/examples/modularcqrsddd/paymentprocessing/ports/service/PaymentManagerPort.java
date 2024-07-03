@@ -2,7 +2,7 @@ package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.servic
 
 import java.util.UUID;
 
-public interface PaymentManager {
+public interface PaymentManagerPort {
 
   UUID startPayment(UUID orderId);
 

@@ -5,8 +5,8 @@ import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.dom
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderFactory;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.OrderSubmission;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepositoryPort;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManagerPort;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderSubmissionDto;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-class OrderManagementApplicationService implements OrderManager {
+class OrderManagementApplicationService implements OrderManagerPort {
   private final OrderDtoConverter orderDtoConverter;
   private final OrderSubmissionConverter orderSubmissionConverter;
-  private final OrderDtoRepository orderRepository;
+  private final OrderDtoRepositoryPort orderRepository;
   private final OrderFactory orderFactory;
   private final ApplicationEventPublisher eventPublisher;
 

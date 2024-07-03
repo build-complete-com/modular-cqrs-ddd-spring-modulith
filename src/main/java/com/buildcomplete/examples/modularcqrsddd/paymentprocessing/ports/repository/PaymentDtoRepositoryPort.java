@@ -3,7 +3,7 @@ package com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.reposi
 import java.util.Optional;
 import java.util.UUID;
 
-public interface PaymentDtoRepository {
+public interface PaymentDtoRepositoryPort {
     Optional<PaymentDto> findById(UUID id);
     Optional<PaymentDto> findByBrokerPaymentId(String brokerPaymentId);
     void save(PaymentDto paymentDto);

@@ -3,7 +3,7 @@ package com.buildcomplete.examples.modularcqrsddd.orderprocessing.application;
 import com.buildcomplete.examples.modularcqrsddd.hexagoncore.application.domainframework.DomainAggregateChange;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.application.domain.Order;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepositoryPort;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class OrderManagementEventHandler {
     private final OrderDtoConverter orderDtoConverter;
-    private final OrderDtoRepository orderRepository;
+    private final OrderDtoRepositoryPort orderRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @ApplicationModuleListener

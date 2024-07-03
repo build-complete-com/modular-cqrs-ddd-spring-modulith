@@ -3,7 +3,7 @@ package com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.reposito
 import java.util.Optional;
 import java.util.UUID;
 
-public interface OrderDtoRepository {
+public interface OrderDtoRepositoryPort {
   Optional<OrderDto> findById(UUID id);
 
   void save(OrderDto order);

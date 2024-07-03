@@ -1,7 +1,7 @@
 package com.buildcomplete.examples.modularcqrsddd.orderprocessingmongodb;
 
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepositoryPort;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-class MongoDbOrderDtoRepository implements OrderDtoRepository {
+class MongoDbOrderDtoRepositoryAdapter implements OrderDtoRepositoryPort {
     private final OrderDocumentConverter converter;
     private final OrderDocumentMongoRepository repository;
 

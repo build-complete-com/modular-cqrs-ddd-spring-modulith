@@ -9,8 +9,8 @@ import com.buildcomplete.examples.modularcqrsddd.AbstractIntegrationTest;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderPayedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.events.OrderSubmittedPortEvent;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDto;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepository;
-import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManager;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.repository.OrderDtoRepositoryPort;
+import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderManagerPort;
 import com.buildcomplete.examples.modularcqrsddd.orderprocessing.ports.service.OrderSubmissionDto;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.events.PaymentCompletedPortEvent;
 import io.awspring.cloud.sns.core.SnsNotification;
@@ -42,9 +42,9 @@ import org.springframework.test.context.ActiveProfiles;
 class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
 
   @Autowired
-  private OrderManager orderManager;
+  private OrderManagerPort orderManagerPort;
   @MockBean
-  private OrderDtoRepository orderRepository;
+  private OrderDtoRepositoryPort orderRepository;
   @MockBean
   private SnsTemplate snsTemplate;
 
@@ -67,7 +67,7 @@ class OrderProcessingIntegrationTest extends AbstractIntegrationTest {
         new OrderSubmissionDto.Entry(secondProductId, 3)
     ));
 
-    scenario.stimulate(() -> orderManager.submitOrder(orderSubmission))
+    scenario.stimulate(() -> orderManagerPort.submitOrder(orderSubmission))
         .andWaitForEventOfType(OrderSubmittedPortEvent.class)
         .toArriveAndVerify((publishedEvent, returnedOrderId) -> {
           assertThat(publishedEvent.getOrderId()).isEqualTo(returnedOrderId);

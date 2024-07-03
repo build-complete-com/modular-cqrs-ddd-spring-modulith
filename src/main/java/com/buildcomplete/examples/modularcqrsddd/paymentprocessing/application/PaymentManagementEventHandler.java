@@ -5,7 +5,7 @@ import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.d
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.application.domain.PaymentStartedEvent;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.paymentbrokerapi.PaymentBroker;
 import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDto;
-import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepository;
+import com.buildcomplete.examples.modularcqrsddd.paymentprocessing.ports.repository.PaymentDtoRepositoryPort;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class PaymentManagementEventHandler {
     private final PaymentDtoConverter paymentDtoConverter;
-    private final PaymentDtoRepository paymentDtoRepository;
+    private final PaymentDtoRepositoryPort paymentDtoRepositoryPort;
     private final PaymentBroker paymentBroker;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -30,12 +30,12 @@ class PaymentManagementEventHandler {
     }
 
     Payment getPaymentById(UUID paymentId) {
-        PaymentDto paymentDto = paymentDtoRepository.findById(paymentId).orElseThrow(() -> new IllegalStateException("Payment should exist"));
+        PaymentDto paymentDto = paymentDtoRepositoryPort.findById(paymentId).orElseThrow(() -> new IllegalStateException("Payment should exist"));
         return paymentDtoConverter.convert(paymentDto);
     }
 
     void savePayment(Payment payment) {
         PaymentDto paymentDto = paymentDtoConverter.convert(payment);
-        paymentDtoRepository.save(paymentDto);
+        paymentDtoRepositoryPort.save(paymentDto);
     }
 }
